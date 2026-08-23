@@ -1,13 +1,13 @@
+import datetime
+
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-import datetime
-
 from .models import Question
 
-
 # Create your tests here.
+
 
 class QuestionModelTests(TestCase):
     def test_was_published_recently_with_old_question(self):
@@ -31,12 +31,14 @@ class QuestionModelTests(TestCase):
         future_question = Question(pub_date=time)
         self.assertIs(future_question.was_published_recently(), False)
 
+
 def create_question(question_text, days):
     """
     Create a question with given `question_text` and `pub_date` the given number of `days` offset to now (negative for questions published in the past, positive for questions not yet published).
     """
     time = timezone.now() + datetime.timedelta(days=days)
     return Question.objects.create(question_text=question_text, pub_date=time)
+
 
 class QuestionIndexViewTests(TestCase):
     def test_no_questions(self):
@@ -94,6 +96,7 @@ class QuestionIndexViewTests(TestCase):
             response.context["latest_question_list"],
             [question2, question1],
         )
+
 
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
